@@ -139,6 +139,50 @@ Updated one repository by id
 Delete one repository by id
 
 * DELETED: */api/repository/:id*
+### Team
+#### GET
+Return all teams:
+
+* GET: */api/team*  
+
+Return one team by id:
+
+* GET: */api/team/:id* 
+
+#### POST
+Create one team
+
+* POST: */api/team*
+#### PATCH
+Updated one team by id
+
+* PATCH: */api/team/:id*
+#### DELETE
+Delete one team by id
+
+* DELETED: */api/team/:id*
+### Card
+#### GET
+Return all cards:
+
+* GET: */api/card*  
+
+Return one card by id:
+
+* GET: */api/card/:id* 
+
+#### POST
+Create one card
+
+* POST: */api/card*
+#### PATCH
+Updated one card by id
+
+* PATCH: */api/card/:id*
+#### DELETE
+Delete one card by id
+
+* DELETED: */api/card/:id*
 
 ## GraphQL
 The GraphQL API is an addition, can interact with the models and make requests to database.
