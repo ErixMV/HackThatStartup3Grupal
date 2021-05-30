@@ -58,6 +58,7 @@ const addMember = async (req, res) => {
     return send(res, 200, team);
 }
 
+//TODO: Check if userid is real.
 const deleteMember = async (req, res) => {
     const { id } = req.params, { userId } = req.body,
         arrTeam = await rp.find({ _id: id }, { members: 1 });
