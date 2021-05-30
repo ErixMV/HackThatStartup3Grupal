@@ -2,7 +2,7 @@ import "regenerator-runtime/runtime.js";
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import helmetOpts from './app/helmet';
+import { helmetOpts, passport } from './app/index';
 import './app/database';
 import routes from './routes';
 import xss from 'xss-clean';
@@ -20,6 +20,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(xss());
 app.use(morgan('dev'));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Server API REST routes
 app.use('/api', routes);
