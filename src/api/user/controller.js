@@ -50,8 +50,7 @@ const login = async (req, res) => {
     const [err, userFound] = await to(rp.find({ username }));
     if (err || !userFound)
         return send(res, 404, err ? err.message : 'Invalid credentials');
-
-    const valid = await compareHash(password, userFound.password);
+    const valid = await compareHash(password, userFound[0].password);
     if (!valid)
         return send(res, 400, 'Invalid credentials');
 

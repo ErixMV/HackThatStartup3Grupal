@@ -136,25 +136,35 @@ describe('Team routes', () => {
 
     it('GET: [domain]/api/team/:id - Get team by id', async () => {
         const member = await new User({
-
-        }).save()
+            username: 'Test03',
+            email: 'test@test03.com',
+            password: 'test3'
+        }).save();
         const testTeam = await new Team({
-            members: ['561834927'],
-            email: 'test@test.com',
-            password: 'test'
+            members: [member._id],
+            name: 'Test Test',
+            description: 'LoremIpsum',
+            authorId: member._id
         }).save();
         await api
-            .get(`/api/user/${testUser._id}`)
+            .get(`/api/team/${testTeam._id}`)
             .expect(200);
     });
 
-    it('POST: [domain]/api/user - Add an user', async () => {
+    it('POST: [domain]/api/team - Add an team', async () => {
+        const testTeam = await new Team({
+            members: ["561834927"],
+            name: 'Team Test',
+            description: 'LoremIpsum',
+            authorId: "561834927"
+        }).save();
         await api
-            .post('/api/user')
+            .post('/api/team')
             .send({
-                username: 'Test2',
-                email: "test2@test.com",
-                password: "12345"
+                members: [testTeam._id],
+                name: 'test@test.com',
+                description: 'LoremIpsum',
+                authorId: testTeam._id
             })
             .expect(201);
     });
@@ -366,7 +376,7 @@ describe('NOTHING', () => {
 //     // return server && server.close();
 // });
 
-afterAll(async ()=> {
+afterAll(async () => {
     await User.deleteMany({});
     await Repository.deleteMany({});
 
