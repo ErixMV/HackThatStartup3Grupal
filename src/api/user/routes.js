@@ -1,13 +1,16 @@
 import { Router } from 'express';
 import ctrl from './controller';
 import { checkCollectionMutation } from './middleware';
+import passport from 'passport';
 
 const router = Router();
 
-router.post('/login', ctrl.login);
+router.post('/login', passport.authenticate('local', {
+    failureRedirect: '/api/redirect'
+}), ctrl.login);
 router.post('/register', ctrl.add);
 
-router.get('/', ctrl.getAll);
+router.get('/', passport.authenticate('local', { failureRedirect: '/api/redirect' }), ctrl.getAll);
 router.get('/:id', ctrl.getOne);
 
 router.post('/', ctrl.add);

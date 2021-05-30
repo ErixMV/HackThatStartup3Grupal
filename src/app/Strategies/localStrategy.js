@@ -12,9 +12,9 @@ export default new Strategy(async (username, password, done) => {
     if (errUser)
         return done("Error on login");
 
-    const [errPwd, validUser] = await to(compareHash(password, user.password));
+    const [errPwd, validUser] = await to(compareHash(password, user[0].password));
     if (errPwd)
         return done('Error on login');
 
-    return validUser;
+    return done(null, user[0]);
 });

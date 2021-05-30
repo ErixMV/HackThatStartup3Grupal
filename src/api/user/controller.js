@@ -5,8 +5,9 @@ import { compareHash } from './utils/bcrypt';
 const send = (res, code, data) =>
     res.status(code).send(data);
 
-const getAll = async (req, res) =>
-    send(res, 200, await rp.find());
+const getAll = async (req, res) => {
+    return send(res, 200, await rp.find());
+}
 
 const getOne = async (req, res) => {
     const { id } = req.params,
@@ -43,6 +44,7 @@ const deleteOne = async (req, res) => {
 }
 
 const login = async (req, res) => {
+    console.log(req.session.passport.user);
     const { username, password } = req.body;
     if (!password || !username)
         return send(res, 400, "Invalid credentials");

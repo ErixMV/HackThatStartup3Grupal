@@ -7,6 +7,7 @@ const send = (res, code, data) =>
 const getAll = async (req, res) =>
     send(res, 200, await rp.find());
 
+
 const getOne = async (req, res) => {
     const { id } = req.params,
         [err, creditCardFound] = await to(rp.find({ _id: id }));
@@ -18,8 +19,8 @@ const getOne = async (req, res) => {
 }
 
 const getUserCreditCard = async (req, res) => {
-    const { id } = req.params;
-    const [err, arrCreditCard] = await to(rp.find({ userId: id }));
+    const { user } = req.session.passport;
+    const [err, arrCreditCard] = await to(rp.find({ userId: user }));
     if (err || !arrCreditCard)
         return send(res, 404, err ? err.message : 'Credit card not found.');
 

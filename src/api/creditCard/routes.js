@@ -5,7 +5,7 @@ import { checkCollectionMutation } from './middleware';
 const router = Router();
 
 router.get('/', ctrl.getAll);
-router.get('/user/:id', ctrl.getUserCreditCard);
+router.get('/user', ctrl.getUserCreditCard);
 router.get('/:id', ctrl.getOne);
 
 router.post('/', ctrl.add);

@@ -5,7 +5,7 @@ const userSchema = new Schema({
     username: { type: String, unique: true, required: true },
     password: { type: String, required: true },
     email: { type: String, unique: true, required: true },
-    repos: { type: Number }
+    repos: { type: Number, default: 0 }
 });
 
 userSchema.pre('save', async function (next) {

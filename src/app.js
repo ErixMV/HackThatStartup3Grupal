@@ -7,6 +7,7 @@ import './app/database';
 import routes from './routes';
 import xss from 'xss-clean';
 import morgan from 'morgan';
+import session from 'express-session';
 
 import { graphqlHTTP } from 'express-graphql';
 import schema from './graphql/schema';
@@ -22,6 +23,11 @@ app.use(xss());
 app.use(morgan('dev'));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(session({
+    secret: "SECRET",
+    resave: true,
+    saveUninitialized: true
+}))
 
 // Server API REST routes
 app.use('/api', routes);
