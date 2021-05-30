@@ -23,13 +23,14 @@ const getUserCreditCard = async (req, res) => {
     const [err, arrCreditCard] = await to(rp.find({ userId: _id }));
     if (err || !arrCreditCard)
         return send(res, 404, err ? err.message : 'Credit card not found.');
-
+    console.log(arrCreditCard);
     return send(res, 200, arrCreditCard[0]);
 }
 
 const add = async (req, res) => {
+    const { _id } = req.user;
     const { body } = req,
-        [err, newCreditCard] = await to(rp.addOne(body));
+        [err, newCreditCard] = await to(rp.addOne(body, _id));
 
     if (err)
         return send(res, 400, err.message);

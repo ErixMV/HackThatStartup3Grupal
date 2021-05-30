@@ -5,7 +5,7 @@ const creditSchema = new Schema({
     name: { type: String, required: true },
     userId: { type: String, required: true },
     number: { type: Number, required: true },
-    expDate: { type: Date, required: true }
+    expDate: { type: String, required: true }
 
 });
 

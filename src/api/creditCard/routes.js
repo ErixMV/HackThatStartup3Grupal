@@ -9,7 +9,7 @@ router.get('/', ctrl.getAll);
 router.get('/user', passport.authenticate('local', { failureRedirect: '/api/redirect' }), ctrl.getUserCreditCard);
 router.get('/:id', ctrl.getOne);
 
-router.post('/', ctrl.add);
+router.post('/', passport.authenticate('local', { failureRedirect: '/api/redirect' }), ctrl.add);
 
 router.patch('/:id', checkCollectionMutation, ctrl.updateOne);
 
