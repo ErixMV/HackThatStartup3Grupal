@@ -1,8 +1,9 @@
 import passport from 'passport';
 import User from '../api/user/model';
 import to from 'await-to-js';
+import localStrategy from './Strategies/localStrategy';
 
-
+passport.use(localStrategy);
 
 passport.serializeUser((validUser, done) => {
     done(null, validUser.id);

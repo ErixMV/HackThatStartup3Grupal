@@ -1,5 +1,6 @@
 import to from 'await-to-js';
 import rp from './repository';
+import { compareHash } from './utils/bcrypt';
 
 const send = (res, code, data) =>
     res.status(code).send(data);
@@ -41,10 +42,27 @@ const deleteOne = async (req, res) => {
     return send(res, 200, deletedDoc);
 }
 
+const login = async (req, res) => {
+    const { username, password } = req.body;
+    if (!password || !username)
+        return send(res, 400, "Invalid credentials");
+
+    const [err, userFound] = await to(rp.find({ username }));
+    if (err || !userFound)
+        return send(res, 404, err ? err.message : 'Invalid credentials');
+
+    const valid = await compareHash(password, userFound.password);
+    if (!valid)
+        return send(res, 400, 'Invalid credentials');
+
+    return send(res, 200, userFound);
+}
+
 export default {
     getAll,
     getOne,
     add,
     updateOne,
-    deleteOne
+    deleteOne,
+    login
 }
