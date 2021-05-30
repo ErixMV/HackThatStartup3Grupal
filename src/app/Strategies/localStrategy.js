@@ -1,4 +1,4 @@
-import { Strategy } from 'passport-local';
+import PassportLocal from 'passport-local';
 import to from 'await-to-js';
 import User from '../../api/user/model'
 import { compareHash } from '../../api/user/utils/bcrypt';
@@ -6,7 +6,7 @@ import { compareHash } from '../../api/user/utils/bcrypt';
 //     usernameField: 'username',
 //     passwordField: 'password'
 // }
-
+const Strategy = PassportLocal.Strategy;
 export default new Strategy(async (username, password, done) => {
     const [errUser, user] = await to(User.find({ username }));
     if (errUser)

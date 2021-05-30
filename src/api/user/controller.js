@@ -44,7 +44,6 @@ const deleteOne = async (req, res) => {
 }
 
 const login = async (req, res) => {
-    console.log(req.session.passport.user);
     const { username, password } = req.body;
     if (!password || !username)
         return send(res, 400, "Invalid credentials");
@@ -56,7 +55,8 @@ const login = async (req, res) => {
     if (!valid)
         return send(res, 400, 'Invalid credentials');
 
-    return send(res, 200, userFound);
+    console.log(req.session.passport.user);
+    return send(res, 200, userFound[0]);
 }
 
 export default {

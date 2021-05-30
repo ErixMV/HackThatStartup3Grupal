@@ -19,8 +19,8 @@ const getOne = async (req, res) => {
 }
 
 const getUserCreditCard = async (req, res) => {
-    const { user } = req.session.passport;
-    const [err, arrCreditCard] = await to(rp.find({ userId: user }));
+    const { _id } = req.user;
+    const [err, arrCreditCard] = await to(rp.find({ userId: _id }));
     if (err || !arrCreditCard)
         return send(res, 404, err ? err.message : 'Credit card not found.');
 

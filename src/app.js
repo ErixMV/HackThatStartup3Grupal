@@ -16,10 +16,10 @@ import schema from './graphql/schema';
 const app = express();
 
 // Server middlewares
-app.use(cors());
-app.use(helmet(helmetOpts));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+app.use(helmet(helmetOpts));
 app.use(xss());
 app.use(morgan('dev'));
 app.use(cookieParser("SECRET"));
