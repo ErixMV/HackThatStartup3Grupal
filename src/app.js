@@ -16,6 +16,7 @@ import { compareHash } from '../src/api/user/utils/bcrypt';
 const connectEnsureLogin = require('connect-ensure-login');
 import ctrlUser from './api/user/controller';
 
+const GitHubStrategy = require('passport-github2').Strategy;
 
 import { graphqlHTTP } from 'express-graphql';
 import schema from './graphql/schema';
@@ -30,7 +31,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(xss());
 app.use(morgan('dev'));
 
-//passport
+// Passport config
 passport.use(
   new LocalStrategy(async function (username, password, cb) {
     try {
@@ -46,6 +47,27 @@ passport.use(
       return cb(error);
     }
   }),
+);
+
+passport.use(
+  new GitHubStrategy(
+    {
+      clientID: '4d4c1cbd5267fffd17ef',
+      clientSecret: 'a7ccfd1b4da227ff4b21472c31f7cba4058c6b7b',
+      callbackURL: 'http://localhost:3000/github',
+    },
+    async function (accessToken, refreshToken, profile, done) {
+      try {
+        const response = await rpUser.findByUsername(profile.username);
+        if (!response) {
+          return done(null, false);
+        }
+        return done(null, response);
+      } catch (error) {
+        return done(error);
+      }
+    },
+  ),
 );
 
 passport.serializeUser(function (user, cb) {
@@ -73,8 +95,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Test passport endpoint
-
 // Server API REST routes
 app.use('/api', connectEnsureLogin.ensureLoggedIn(), routes);
 
@@ -96,5 +116,20 @@ app.use('/login', passport.authenticate('local'), (req, res) =>
 );
 
 app.use('/signup', ctrlUser.add);
+
+app.get('/auth/error', (req, res) => res.send('Unknown Error'));
+
+app.get(
+  '/auth/github',
+  passport.authenticate('github', { scope: ['user'] }),
+);
+
+app.get(
+  '/github',
+  passport.authenticate('github', { failureRedirect: '/auth/error' }),
+  function (req, res) {
+    res.redirect('/');
+  },
+);
 
 export default app;
